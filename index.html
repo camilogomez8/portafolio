@@ -329,6 +329,12 @@ a.play{display:grid;place-items:center;text-decoration:none}
 .menu button[aria-selected="true"]::before{content:"▶";position:absolute;left:8px;color:#f3d36b}
 .menu .n{color:#6a8a72;margin-right:10px}
 .menu button{cursor:pointer}
+.vidview{position:relative;z-index:5;display:grid;justify-items:center;gap:14px;text-align:center}
+.vidview h3{margin:0;font-size:clamp(10px,1.6vw,13px)}
+.vidview video{width:min(100%,300px);max-height:62dvh;border-radius:10px;background:#000;border:3px solid #2a2440}
+.vidview .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.vidview .vb{font-family:var(--f-pixel);font-size:11px;background:transparent;color:#d8f7d0;border:2px solid #6a8a72;padding:8px 12px;cursor:pointer;text-decoration:none}
+.vidview .vb.go{background:#7cf29a;color:#06120a;border-color:#7cf29a}
 .desc{min-height:3.2em;font-family:var(--f-body);font-size:15px;color:#e7f5e9;border:2px solid #2e4a37;border-radius:4px;padding:10px 12px;margin:0 0 20px}
 .go{display:inline-block;font-family:var(--f-pixel);font-size:clamp(10px,1.4vw,12px);color:#0d0f1a;background:#7cf29a;padding:12px 16px;text-decoration:none;border-radius:3px;box-shadow:0 4px 0 #3c8f55}
 .go:active{transform:translateY(3px);box-shadow:0 1px 0 #3c8f55}
@@ -530,7 +536,7 @@ const DATA={
   interactivos:{games:[
       ['Midterms: 7 juegos','Las elecciones de EE. UU. y la era Trump, explicadas con juegos: derrota centros de datos, esquiva titulares de corrupción y lidia con el precio de la carne. Diseño de Viviana Velásquez.','https://www.elespectador.com/mundo/america/elecciones-midterm-de-ee-uu-y-la-era-trump-explicadas-con-juegos/','3 nov. 2026'],
       ['Mapa en vivo','Cubrimiento en vivo de las midterms con gráficos en Flourish: cada punto es un escaño y cambia de color cuando se proyecta un ganador.','https://www.elespectador.com/mundo/elecciones-en-ee-uu-hoy-en-vivo-trump-congreso/','3 nov. 2026'],
-      ['Núremberg en 3D','El experimento que falló: por qué Núremberg no logró frenar los crímenes del siglo XXI. Espacios digitales diseñados con Metasteps y Meshy.','https://www.elespectador.com/mundo/europa/juicios-de-nuremberg-a-los-nazis-80-anos-despues-que-legado-queda/','22 nov. 2025'],
+      ['Núremberg en 3D','El experimento que falló: por qué Núremberg no logró frenar los crímenes del siglo XXI. Espacios digitales diseñados con Metasteps y Meshy. Haz clic para ver el recorrido en video.','https://www.elespectador.com/mundo/europa/juicios-de-nuremberg-a-los-nazis-80-anos-despues-que-legado-queda/','22 nov. 2025',{src:'video/nuremberg-3d.mp4',poster:'video/nuremberg-3d.jpg'}],
       ['Un laberinto para entender el Brexit','Un laberinto con la bandera británica: cada recodo es un momento del Brexit, desde el referendo del 23 de junio de 2016 hasta la salida oficial el 31 de enero de 2020.','img/brexit-laberinto.webp',''],
       ['¿Es capaz de derrumbar el Muro de Berlín?','Un interactivo para ponerse a prueba con la caída del Muro de Berlín.','https://www.elespectador.com/mundo/mas-paises/es-capaz-de-derrumbar-el-muro-de-berlin-article-890246/',''],
       ['Roe vs. Wade: 1.200 km para abortar','Si cae Roe vs. Wade, las mujeres de EE. UU. necesitarían viajes de 1.200 km para poder abortar. Un recorrido interactivo para ver cómo cambiaría el mapa.','https://www.elespectador.com/mundo/america/roe-vs-wade-mujeres-de-ee-uu-necesitarian-viajes-de-1200-km-para-poder-abortar-noticias-hoy/',''],
@@ -547,6 +553,7 @@ const DATA={
     {title:'Asalto al Capitolio',url:'https://www.youtube.com/watch?v=rTn-gfw0PPE&t=3s',c:'#3d5a9e'}],
   redes:[{kind:'TikTok',handle:'@untipodelcine',title:'Entrevista con el creador de Avatar',p:'Video vertical para TikTok.',url:'https://www.tiktok.com/@untipodelcine/video/7705096903469321492',cta:'Ver en TikTok'},
          {kind:'TikTok',handle:'@untipodelcine',title:'Entrevista con Editors',p:'Video vertical para TikTok.',url:'https://www.tiktok.com/@untipodelcine/video/7695856645343104257',cta:'Ver en TikTok'},
+         {kind:'Instagram',title:'Carrusel en video',p:'Un formato que inventé para subir videos más largos cuando Instagram limitaba a 3 minutos: un carrusel de clips. Una muestra de que me las arreglo como sea.',url:'https://www.instagram.com/p/DNbPgAgAryk/',cta:'Ver en Instagram'},
          {kind:'Instagram',title:'Manejo de redes sociales',p:'Una publicación hecha para Instagram.',url:'https://www.instagram.com/p/DfU1g-EFteb/',cta:'Ver en Instagram'},
          {kind:'YouTube',title:'Formatos en video',p:'Video pensado para redes.',url:'https://www.youtube.com/watch?v=8wtyEEJlJd8&t=103s',cta:'Ver en YouTube'}],
   viajes:{name:'camisymarisxelmundo',p:'Un blog de viajes de Cami y Mari: lugares favoritos, itinerarios y mapas.',stop:'Primera parada: Río de Janeiro',url:'https://camisymarisxelmundo.substack.com/'},
@@ -624,7 +631,8 @@ const VIEWS={
     const opts=[...dlg.querySelectorAll('.menu button')],desc=dlg.querySelector('#gdesc'),gd=dlg.querySelector('#gdate');let cur=0;
     const sel=i=>{cur=(i+opts.length)%opts.length;opts.forEach((o,j)=>o.setAttribute('aria-selected',j===cur));desc.textContent=d[cur][1];gd.textContent='El Espectador'+(d[cur][3]?' · '+d[cur][3]:'');};
     sel(0);
-    opts.forEach(o=>{o.addEventListener('click',()=>{sel(+o.dataset.i);window.open(d[+o.dataset.i][2],'_blank','noopener')});o.addEventListener('mouseenter',()=>sel(+o.dataset.i));o.addEventListener('focus',()=>sel(+o.dataset.i))});
+    const showVideo=i=>{const g=d[i],crt=dlg.querySelector('.crt');crt.innerHTML=`<div class="vidview"><h3 class="px">${esc(g[0].toUpperCase())}</h3><video controls playsinline preload="metadata" poster="${esc(g[4].poster)}" src="${esc(g[4].src)}"></video><div class="row"><button type="button" class="vb" id="vback">← VOLVER</button><a class="vb go" href="${esc(g[2])}" target="_blank" rel="noopener">ABRIR EL ARTÍCULO →</a></div></div>`;crt.querySelector('#vback').addEventListener('click',()=>{if(cleanup){cleanup();cleanup=null}VIEWS.interactivos()});crt.querySelector('#vback').focus()};
+    opts.forEach(o=>{o.addEventListener('click',()=>{const i=+o.dataset.i;sel(i);if(d[i][4]){showVideo(i)}else{window.open(d[i][2],'_blank','noopener')}});o.addEventListener('mouseenter',()=>sel(+o.dataset.i));o.addEventListener('focus',()=>sel(+o.dataset.i))});
     const key=e=>{if(e.key==='ArrowDown'){e.preventDefault();sel(cur+1);opts[cur].focus()}if(e.key==='ArrowUp'){e.preventDefault();sel(cur-1);opts[cur].focus()}};
     dlg.addEventListener('keydown',key);cleanup=()=>dlg.removeEventListener('keydown',key);
   },
