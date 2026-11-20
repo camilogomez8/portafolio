@@ -328,6 +328,7 @@ a.play{display:grid;place-items:center;text-decoration:none}
 .menu button[aria-selected="true"]{background:rgba(124,242,154,.12);color:#fff}
 .menu button[aria-selected="true"]::before{content:"▶";position:absolute;left:8px;color:#f3d36b}
 .menu .n{color:#6a8a72;margin-right:10px}
+.menu button{cursor:pointer}
 .desc{min-height:3.2em;font-family:var(--f-body);font-size:15px;color:#e7f5e9;border:2px solid #2e4a37;border-radius:4px;padding:10px 12px;margin:0 0 20px}
 .go{display:inline-block;font-family:var(--f-pixel);font-size:clamp(10px,1.4vw,12px);color:#0d0f1a;background:#7cf29a;padding:12px 16px;text-decoration:none;border-radius:3px;box-shadow:0 4px 0 #3c8f55}
 .go:active{transform:translateY(3px);box-shadow:0 1px 0 #3c8f55}
@@ -615,15 +616,14 @@ const VIEWS={
   },
   interactivos(){
     const d=DATA.interactivos.games;
-    dlg.innerHTML=`<div class="win w-juegos">${X()}<div class="crt"><p class="px ins">INSERT COIN</p><h2 class="px">INTERACTIVOS</h2><p class="sub">Juegos, mapas, explicadores y espacios en 3D. Elige uno.</p>
+    dlg.innerHTML=`<div class="win w-juegos">${X()}<div class="crt"><p class="px ins">INSERT COIN</p><h2 class="px">INTERACTIVOS</h2><p class="sub">Juegos, mapas, explicadores y espacios en 3D. Haz clic en uno para abrirlo.</p>
       <ul class="menu" role="listbox" aria-label="Interactivos">${d.map((g,i)=>`<li><button type="button" role="option" data-i="${i}" aria-selected="${i===0}"><span class="n">${i+1}</span>${esc(g[0].toUpperCase())}</button></li>`).join('')}</ul>
       <p class="desc" id="gdesc" aria-live="polite"></p>
-      <a class="go" id="go" href="#" target="_blank" rel="noopener">▶ PRESS START</a>
       <p class="credit" id="gdate"></p></div></div>`;
-    const opts=[...dlg.querySelectorAll('.menu button')],desc=dlg.querySelector('#gdesc'),go=dlg.querySelector('#go'),gd=dlg.querySelector('#gdate');let cur=0;
-    const sel=i=>{cur=(i+opts.length)%opts.length;opts.forEach((o,j)=>o.setAttribute('aria-selected',j===cur));desc.textContent=d[cur][1];go.href=d[cur][2];gd.textContent='El Espectador'+(d[cur][3]?' · '+d[cur][3]:'');};
+    const opts=[...dlg.querySelectorAll('.menu button')],desc=dlg.querySelector('#gdesc'),gd=dlg.querySelector('#gdate');let cur=0;
+    const sel=i=>{cur=(i+opts.length)%opts.length;opts.forEach((o,j)=>o.setAttribute('aria-selected',j===cur));desc.textContent=d[cur][1];gd.textContent='El Espectador'+(d[cur][3]?' · '+d[cur][3]:'');};
     sel(0);
-    opts.forEach(o=>{o.addEventListener('click',()=>sel(+o.dataset.i));o.addEventListener('mouseenter',()=>sel(+o.dataset.i));o.addEventListener('focus',()=>sel(+o.dataset.i))});
+    opts.forEach(o=>{o.addEventListener('click',()=>{sel(+o.dataset.i);window.open(d[+o.dataset.i][2],'_blank','noopener')});o.addEventListener('mouseenter',()=>sel(+o.dataset.i));o.addEventListener('focus',()=>sel(+o.dataset.i))});
     const key=e=>{if(e.key==='ArrowDown'){e.preventDefault();sel(cur+1);opts[cur].focus()}if(e.key==='ArrowUp'){e.preventDefault();sel(cur-1);opts[cur].focus()}};
     dlg.addEventListener('keydown',key);cleanup=()=>dlg.removeEventListener('keydown',key);
   },
