@@ -92,7 +92,7 @@ dialog[open] .win{animation:pop .4s cubic-bezier(.2,1.3,.4,1)}
 .x{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:0;cursor:pointer;font-size:20px;line-height:1;z-index:3}
 
 /* camera: film viewer */
-.w-fotos{background:#141312;color:#efe9df;padding:0 0 18px}
+.w-fotos{max-height:calc(100dvh - 24px);overflow-y:auto;background:#141312;color:#efe9df;padding:0 0 18px}
 .w-fotos .bar{display:flex;align-items:center;justify-content:space-between;padding:14px 56px 10px 20px;font-family:var(--f-type);font-size:14px;letter-spacing:.06em;color:#bfb6a8}
 .w-fotos .bar b{font-weight:400;color:#f3d36b}
 .w-fotos .x{background:#2b2926;color:#efe9df}
@@ -314,7 +314,7 @@ a.play{display:grid;place-items:center;text-decoration:none}
 @media (max-width:640px){.audio-low{grid-template-columns:1fr}}
 
 /* cube: arcade */
-.w-juegos{background:#0d0f1a;color:#d8f7d0;padding:clamp(18px,3vw,28px);border:10px solid #2a2440;border-radius:18px}
+.w-juegos{max-height:calc(100dvh - 24px);overflow-y:auto;background:#0d0f1a;color:#d8f7d0;padding:clamp(18px,3vw,28px);border:10px solid #2a2440;border-radius:18px}
 .w-juegos .x{background:#2a2440;color:#d8f7d0}
 .crt{position:relative;background:radial-gradient(ellipse at center,#122019 0%,#070a09 100%);border-radius:12px;padding:clamp(18px,4vw,36px);overflow:hidden}
 .crt::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.25) 0 2px,transparent 2px 4px);pointer-events:none}
@@ -358,6 +358,18 @@ dialog.d-badge{width:min(420px,calc(100vw - 24px))}
 .btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:6px;padding:11px 18px}
 .btn.dark{background:var(--ink);color:#fff}
 
+/* sobre mí: biografía desplegable */
+.w-sobre{max-height:calc(100dvh - 24px);overflow-y:auto}
+.more{margin:18px 26px 0;text-align:left;border-top:1px dashed var(--line);padding-top:12px}
+.more summary{cursor:pointer;font-family:var(--f-type);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#b3261e;list-style:none}
+.more summary::-webkit-details-marker{display:none}
+.more summary::before{content:"▸ "}
+.more[open] summary::before{content:"▾ "}
+.more .bio{margin-top:10px;max-height:min(36dvh,300px);overflow:auto;padding-right:6px;font-size:14px;line-height:1.55;color:var(--ink)}
+.more .bio p{margin:0 0 10px}
+/* audio: varias playlists */
+.w-audio{max-height:calc(100dvh - 24px);overflow-y:auto}
+.w-audio .player+.player{margin-top:clamp(20px,4vw,30px);padding-top:clamp(20px,4vw,30px);border-top:1px solid rgba(255,255,255,.12)}
 @media (max-width:640px){
   .player{grid-template-columns:1fr}
   .cover{max-width:220px;margin:0 auto}
@@ -453,7 +465,7 @@ function clack(){
 const armsB=document.getElementById('armsB');
 const fBlink=document.getElementById('fBlink');
 const wordsBox=document.getElementById('words');
-const phrases=['María Elvira Salazar','midterms','Venezuela','Queens of the Stone Age','migración','siete juegos','Rock al Parque','Mundo','Revista Vea','El Espectador','Bogotá','entrevista','crónica','conciertos','Florida','Trump','Brasil','Óscar'];
+const phrases=['María Elvira Salazar','midterms','Venezuela','Queens of the Stone Age','migración','siete juegos','Rock al Parque','Mundo','Revista Vea','El Espectador','Bogotá','Myanmar','entrevista','crónica','conciertos','Florida','Trump','Brasil','Óscar'];
 const LID={x0:1600,x1:2000,y0:725,y1:680};
 let pi=Math.floor(Math.random()*phrases.length),ci=0;
 function tap(){armsB.classList.toggle('on');clack();}
@@ -487,6 +499,7 @@ if(reduce){
 /* ---------- content ---------- */
 const DATA={
   escritos:[
+    {"g": "Mundo", "kick": "Mundo · Justicia internacional", "title": "Myanmar, culpable de genocidio: ahora la lupa está sobre Israel por Gaza", "dek": "El tribunal de La Haya halló a Myanmar culpable de genocidio el jueves, y aunque nadie puede obligarlo a cumplir con el veredicto, tendrá un impacto real en Gaza y en cómo el mundo juzgará estos crímenes desde ahora.", "pub": "El Espectador", "date": "19 nov. 2026", "url": "https://www.elespectador.com/mundo/mas-paises/myanmar-genocidio-israel-gaza/", "cta": "Leer el artículo"},
     {"g": "Mundo", "kick": "Mundo · América", "title": "De la Espriella y Machado, en la campaña de María Elvira Salazar: ¿error de cálculo?", "dek": "La han llamado “la mejor amiga de Colombia” y una “aliada leal de Venezuela”. Sin embargo, la congresista estadounidense María Elvira Salazar ha tomado decisiones que perjudican a la comunidad de estos dos países en Florida. ¿Por qué la apoyan si, además, no tendría efecto?", "pub": "El Espectador", "date": "16 oct. 2026", "url": "https://www.elespectador.com/mundo/america/de-la-espriella-y-machado-en-la-campana-de-maria-elvira-salazar/", "cta": "Leer el artículo"},
     {"g": "Mundo", "kick": "Mundo · Entrevista", "title": "“La era de los cobardes”: la jefa de Amnistía habla de Trump, Gaza y Colombia", "dek": "En conversación con El Espectador, la secretaria general de Amnistía Internacional, Agnès Callamard, habló sobre las crisis que enfrenta el mundo. Advierte que Colombia podría ser cómplice de los bombardeos de Trump y dice que el gesto armado del presidente De la Espriella era para la élite.", "pub": "El Espectador", "date": "28 sep. 2026", "url": "https://www.elespectador.com/mundo/america/amnistia-internacional-agnes-callamard-entrevista-colombia-trump-de-la-espriella/", "cta": "Leer la entrevista"},
     {"g": "Mundo", "kick": "Mundo · Europa", "title": "Colombianos trabajando en España: la cruda cara del “sueño español”", "dek": "El país lidera la regularización migratoria en España. Es una noticia positiva, pero muchos colombianos siguen en la precariedad.", "pub": "El Espectador", "date": "20 sep. 2026", "url": "https://www.elespectador.com/mundo/europa/colombianos-en-espana/", "cta": "Leer el artículo"},
@@ -495,20 +508,33 @@ const DATA={
     {"g": "Mundo", "kick": "Mundo · Venezuela", "title": "El mapa de la muerte: 320 víctimas durante protestas en Venezuela en la era Maduro", "dek": "Desde que Nicolás Maduro tomó el poder, se han documentado al menos unas 320 muertes durante manifestaciones en el país.", "pub": "El Espectador", "date": "1 sep. 2024", "url": "https://www.elespectador.com/mundo/elecciones-venezuela-2024/el-mapa-de-la-muerte-320-victimas-durante-protestas-en-venezuela-en-la-era-maduro/", "cta": "Ver el mapa"},
     {"g": "Mundo", "kick": "Mundo · Venezuela · Entrevista", "title": "“Hasta el final es hasta el final”: entrevista con María Corina Machado", "dek": "Entrevista con la líder opositora venezolana sobre su campaña, la salida de Henrique Capriles y Freddy Superlano de la contienda y el “Protocolo Barinas”.", "pub": "El Espectador", "date": "", "url": "https://www.elespectador.com/mundo/america/hasta-el-final-es-hasta-el-final-entrevista-con-maria-corina-machado-noticias-hoy/", "cta": "Leer la entrevista"},
     {"g": "Mundo", "kick": "Mundo · Migración", "title": "Del infierno venezolano al limbo colombiano: los retos para los migrantes LGBT", "dek": "La comunidad LGBTI, reprimida en Venezuela, ve a Colombia como un “paraíso”. Pero la violencia con la que son recibidos desdibuja esa idea. Se necesitan políticas con enfoques diferenciales para acogerlos.", "pub": "El Espectador", "date": "7 may. 2021", "url": "https://www.elespectador.com/mundo/america/del-infierno-venezolano-al-limbo-colombiano-los-retos-para-los-migrantes-lgbt-article/", "cta": "Leer el artículo"},
+    {"g": "Cultura", "kick": "Magazín Cultural · Teatro", "title": "Druk en el Teatro Nacional: una mirada al alcoholismo con humor y sin sermones", "dek": "La adaptación teatral de la película danesa que ganó el Óscar llegó al Teatro Nacional de Bogotá.", "pub": "El Espectador", "date": "nov. 2026", "url": "https://www.elespectador.com/el-magazin-cultural/druk-en-el-teatro-nacional-una-mirada-al-alcoholismo-con-humor-y-sin-sermones/", "cta": "Leer la nota"},
     {"g": "Cultura", "kick": "Revista Vea · Entrevista", "title": "Queens of the Stone Age, la banda que defiende la imperfección en tiempos de IA", "dek": "En conversación con El Espectador, Jon Theodore, baterista de Queens of the Stone Age, habló de ‘Perfecth’, el disco que lanzó la banda, y de su regreso a Latinoamérica.", "pub": "Revista Vea", "date": "3 nov. 2026", "url": "https://www.elespectador.com/revista-vea/musica-y-conciertos/entrevista-queens-of-the-stone-age-la-banda-que-defiende-la-imperfeccion-en-tiempos-de-ia/", "cta": "Leer la entrevista", "quote": "La diferencia en cómo se hace la música se siente en el cuerpo, en un nivel sutil.", "quoteBy": "Jon Theodore"},
     {"g": "Cultura", "kick": "Revista Vea · Entrevista", "title": "Jack Antonoff: “El alma en la música importará más que nunca frente a la IA”", "dek": "El productor detrás de éxitos de estrellas como Sabrina Carpenter, Taylor Swift y Lana Del Rey habla de ‘Everyone for ten minutes’, el nuevo disco de Bleachers. Una oda a lo analógico y un mensaje contra la IA.", "pub": "Revista Vea", "date": "31 may. 2026", "url": "https://www.elespectador.com/revista-vea/musica-y-conciertos/entrevista-jack-antonoff-el-alma-en-la-musica-va-a-importar-mas-que-nunca-frente-a-la-ia/", "cta": "Leer la entrevista"},
     {"g": "Cultura", "kick": "Revista Vea · Reseña", "title": "‘The Mountain’ de Gorillaz: el disco que no podría hacer la IA", "dek": "Damon Albarn y Jamie Hewlett perdieron a sus padres con una semana de diferencia. Así transformaron el luto en una obra maestra humana.", "pub": "Revista Vea", "date": "27 feb. 2026", "url": "https://www.elespectador.com/revista-vea/musica-y-conciertos/the-mountain-de-gorillaz-el-disco-que-no-podria-hacer-la-ia/", "cta": "Leer la reseña"},
     {"g": "Cultura", "kick": "Cine · Crónica", "title": "Yo estuve en… la noche que ganó “Parasite”", "dek": "Las estrellas brillan más en la noche de los Premios Óscar, pues todos los focos están sobre ellas, pero no hay mucho por decir sobre la ceremonia: vestidos hermosos y gente sonriendo siempre. Pasando la calle del teatro Dolby la historia es diferente.", "pub": "El Espectador", "date": "26 dic. 2020", "url": "https://www.elespectador.com/entretenimiento/cine-y-tv/yo-estuve-en-la-noche-que-gano-parasite-article/", "cta": "Leer la crónica"}],
-  audio:{series:'El canto de la historia',title:'Así sonó el crack económico de 2008',
-    dek:'En medio de la depresión económica surgió una ola musical en géneros como el country y el folk que hizo eco de la cruda realidad que vivía el mundo: pobreza, hambre y desempleo.',
-    about:'Una serie de El Espectador que recorría eventos locales, regionales y mundiales a partir de las canciones que los criticaron o los retrataron. Cada sábado, una nota en papel con un código para escanear y abrir la playlist en Spotify.',
-    songs:[['Cough Up the Bucks','Neil Young'],['Nobody Knows You When You’re Down and Out','Bessie Smith'],['Red, White & Pink Slip Blues','Hank Williams Jr.'],['Shuttin’ Detroit Down','John Rich'],['Time Is Hard','Loudon Wainwright III'],['Bloodbuzz Ohio','The National'],['I Need a Dollar','Aloe Blacc'],['I’m Broke and I’m Proud','Rugged N Raw']],
-    url:'https://open.spotify.com/playlist/4bZ0XepoHjix6gwbwKJfti'},
+  audio:[
+    {cover:'2008',series:'El canto de la historia',title:'Así sonó el crack económico de 2008',by:'Camilo Gómez Forero · El Espectador',
+      dek:'En medio de la depresión económica surgió una ola musical en géneros como el country y el folk que hizo eco de la cruda realidad que vivía el mundo: pobreza, hambre y desempleo.',
+      about:'Una serie de El Espectador que recorría eventos locales, regionales y mundiales a partir de las canciones que los criticaron o los retrataron. Cada sábado, una nota en papel con un código para escanear y abrir la playlist en Spotify.',
+      url:'https://open.spotify.com/playlist/4bZ0XepoHjix6gwbwKJfti'},
+    {cover:'II',series:'',title:'Playlist sobre la reina Isabel II',by:'Camilo Gómez Forero',
+      dek:'',about:'',
+      url:'https://open.spotify.com/playlist/6OBWLLq4NAcJimY4Ntakb2'}],
   interactivos:{games:[
       ['Midterms: 7 juegos','Las elecciones de EE. UU. y la era Trump, explicadas con juegos: derrota centros de datos, esquiva titulares de corrupción y lidia con el precio de la carne. Diseño de Viviana Velásquez.','https://www.elespectador.com/mundo/america/elecciones-midterm-de-ee-uu-y-la-era-trump-explicadas-con-juegos/','3 nov. 2026'],
       ['Mapa en vivo','Cubrimiento en vivo de las midterms con gráficos en Flourish: cada punto es un escaño y cambia de color cuando se proyecta un ganador.','https://www.elespectador.com/mundo/elecciones-en-ee-uu-hoy-en-vivo-trump-congreso/','3 nov. 2026'],
-      ['Núremberg en 3D','El experimento que falló: por qué Núremberg no logró frenar los crímenes del siglo XXI. Espacios digitales diseñados con Metasteps y Meshy.','https://www.elespectador.com/mundo/europa/juicios-de-nuremberg-a-los-nazis-80-anos-despues-que-legado-queda/','22 nov. 2025']]},
-  video:[{title:'¿Cómo funcionan las votaciones en Estados Unidos? Entienda todo en cinco minutos',url:'https://www.youtube.com/watch?v=5hGaq-ksXfI&t=106s',c:'#c0392b'},
+      ['Núremberg en 3D','El experimento que falló: por qué Núremberg no logró frenar los crímenes del siglo XXI. Espacios digitales diseñados con Metasteps y Meshy.','https://www.elespectador.com/mundo/europa/juicios-de-nuremberg-a-los-nazis-80-anos-despues-que-legado-queda/','22 nov. 2025'],
+      ['Roe vs. Wade: 1.200 km para abortar','Si cae Roe vs. Wade, las mujeres de EE. UU. necesitarían viajes de 1.200 km para poder abortar. Un recorrido interactivo para ver cómo cambiaría el mapa.','https://www.elespectador.com/mundo/america/roe-vs-wade-mujeres-de-ee-uu-necesitarian-viajes-de-1200-km-para-poder-abortar-noticias-hoy/',''],
+      ['Rusia y Ucrania: guía visual','Guía visual con mapas: el resumen y las causas del conflicto entre Rusia y Ucrania.','https://www.elespectador.com/mundo/europa/guia-visual-el-resumen-y-las-causas-del-conflicto-entre-rusia-y-ucrania-con-mapas-noticias-hoy/',''],
+      ['Sin migración no hay Mundial','¿Puede adivinar cuáles son estos equipos? Un juego sobre el peso de la migración en las selecciones del Mundial de Catar 2022.','https://www.elespectador.com/mundo/mas-paises/sin-migracion-no-hay-mundial-puede-adivinar-cuales-son-estos-equipos-noticias-hoy-catar-2022/',''],
+      ['Israel e Irán: por qué están en guerra','Un explicador para entender por qué están en guerra Israel e Irán.','https://www.elespectador.com/mundo/mas-paises/por-que-estan-en-guerra-israel-e-iran-hoy-esto-le-ayudara-a-entenderlo/',''],
+      ['El mundo no es como lo pintan','Por qué el 8M no es un día para celebrar, contado para llegarle a audiencias infantiles.','https://www.elespectador.com/mundo/mas-paises/el-8m-no-es-un-dia-para-celebrar-porque-article/',''],
+      ['El mundo en emojis','Las noticias del mundo en emojis, un video pensado para audiencias infantiles.','https://www.youtube.com/watch?v=1mAqvP-NgW0','']]},
+  video:[{title:'Una receta siria: cocinar para sobrevivir en Bogotá',url:'https://www.youtube.com/watch?v=YX2Nm5tnLO4',c:'#2e7d6b'},
+    {title:'Bohemian Rhapsody: ¿en realidad fue tan mala como dijo la crítica?',url:'https://www.youtube.com/watch?v=8wtyEEJlJd8&t=103s',c:'#7a3e8e'},
+    {title:'Mossad: la agencia más temida del mundo',url:'https://www.youtube.com/watch?v=4MvDCEifvpc&t=9s',c:'#34495e'},
+    {title:'¿Cómo funcionan las votaciones en Estados Unidos? Entienda todo en cinco minutos',url:'https://www.youtube.com/watch?v=5hGaq-ksXfI&t=106s',c:'#c0392b'},
     {title:'Incendios en Los Ángeles',url:'https://www.youtube.com/watch?v=v3MKBBvimWw&t=13s',c:'#d9822b'},
     {title:'Asalto al Capitolio',url:'https://www.youtube.com/watch?v=rTn-gfw0PPE&t=3s',c:'#3d5a9e'}],
   redes:[{kind:'TikTok',handle:'@untipodelcine',title:'Entrevista con el creador de Avatar',p:'Video vertical para TikTok.',url:'https://www.tiktok.com/@untipodelcine/video/7705096903469321492',cta:'Ver en TikTok'},
@@ -575,22 +601,21 @@ const VIEWS={
     btns.forEach(b=>b.addEventListener('click',()=>show(+b.dataset.i)));show(0);
   },
   audio(){
-    const d=DATA.audio;
-    dlg.innerHTML=`<div class="win w-audio">${X()}<div class="player">
-      <div class="cover" aria-hidden="true"><div class="vinyl"></div><span>2008</span></div>
-      <div><p class="now">Playlist · ${esc(d.series)}</p><h2>${esc(d.title)}</h2><p class="art">Camilo Gómez Forero · El Espectador</p>
-      <div class="ctrl"><a class="play" href="${esc(d.url)}" target="_blank" rel="noopener" aria-label="Escuchar en Spotify">▶</a><a class="btn" style="color:#f3d36b;padding:0" href="${esc(d.url)}" target="_blank" rel="noopener">Escuchar la playlist en Spotify →</a></div>
-      <p class="meta">${esc(d.dek)}</p><p class="meta" style="margin-top:12px">${esc(d.about)}</p></div></div></div>`;
+    dlg.innerHTML=`<div class="win w-audio">${X()}${DATA.audio.map(d=>`<div class="player">
+      <div class="cover" aria-hidden="true"><div class="vinyl"></div><span>${esc(d.cover)}</span></div>
+      <div><p class="now">Playlist${d.series?' · '+esc(d.series):''}</p><h2>${esc(d.title)}</h2><p class="art">${esc(d.by)}</p>
+      <div class="ctrl"><a class="play" href="${esc(d.url)}" target="_blank" rel="noopener" aria-label="Escuchar en Spotify: ${esc(d.title)}">▶</a><a class="btn" style="color:#f3d36b;padding:0" href="${esc(d.url)}" target="_blank" rel="noopener">Escuchar la playlist en Spotify →</a></div>
+      ${d.dek?`<p class="meta">${esc(d.dek)}</p>`:''}${d.about?`<p class="meta" style="margin-top:12px">${esc(d.about)}</p>`:''}</div></div>`).join('')}</div>`;
   },
   interactivos(){
     const d=DATA.interactivos.games;
-    dlg.innerHTML=`<div class="win w-juegos">${X()}<div class="crt"><p class="px ins">INSERT COIN</p><h2 class="px">INTERACTIVOS</h2><p class="sub">Juegos, mapas en vivo y espacios en 3D. Elige uno.</p>
+    dlg.innerHTML=`<div class="win w-juegos">${X()}<div class="crt"><p class="px ins">INSERT COIN</p><h2 class="px">INTERACTIVOS</h2><p class="sub">Juegos, mapas, explicadores y espacios en 3D. Elige uno.</p>
       <ul class="menu" role="listbox" aria-label="Interactivos">${d.map((g,i)=>`<li><button type="button" role="option" data-i="${i}" aria-selected="${i===0}"><span class="n">${i+1}</span>${esc(g[0].toUpperCase())}</button></li>`).join('')}</ul>
       <p class="desc" id="gdesc" aria-live="polite"></p>
       <a class="go" id="go" href="#" target="_blank" rel="noopener">▶ PRESS START</a>
       <p class="credit" id="gdate"></p></div></div>`;
     const opts=[...dlg.querySelectorAll('.menu button')],desc=dlg.querySelector('#gdesc'),go=dlg.querySelector('#go'),gd=dlg.querySelector('#gdate');let cur=0;
-    const sel=i=>{cur=(i+opts.length)%opts.length;opts.forEach((o,j)=>o.setAttribute('aria-selected',j===cur));desc.textContent=d[cur][1];go.href=d[cur][2];gd.textContent='El Espectador · '+d[cur][3];};
+    const sel=i=>{cur=(i+opts.length)%opts.length;opts.forEach((o,j)=>o.setAttribute('aria-selected',j===cur));desc.textContent=d[cur][1];go.href=d[cur][2];gd.textContent='El Espectador'+(d[cur][3]?' · '+d[cur][3]:'');};
     sel(0);
     opts.forEach(o=>{o.addEventListener('click',()=>sel(+o.dataset.i));o.addEventListener('mouseenter',()=>sel(+o.dataset.i));o.addEventListener('focus',()=>sel(+o.dataset.i))});
     const key=e=>{if(e.key==='ArrowDown'){e.preventDefault();sel(cur+1);opts[cur].focus()}if(e.key==='ArrowUp'){e.preventDefault();sel(cur-1);opts[cur].focus()}};
@@ -682,11 +707,12 @@ const VIEWS={
     dlg.innerHTML=`<div class="win w-sobre"><div class="lanyard"></div>${X()}<p class="press">PRENSA</p><div class="avatar" role="img" aria-label="Caricatura de Camilo"></div>
       <h2>Camilo Gómez Forero</h2><p class="role">Periodista</p>
       <dl><dt>Hoy</dt><dd>Sección Mundo de El Espectador y colaborador de Revista Vea</dd>
-      <dt>Enseño</dt><dd>Periodismo en la Universidad de los Andes</dd>
+      <dt>Enseño</dt><dd>Periodismo en la Universidad de los Andes, con sesiones invitadas en la Universidad del Rosario y la Javeriana</dd>
       <dt>Estudié</dt><dd>Periodismo en la Pontificia Universidad Javeriana</dd>
       <dt>Becas</dt><dd>ICFJ fellow, 2024</dd>
       <dt>Cubrí</dt><dd>Los Premios Óscar de 2020</dd>
       <dt>Redes</dt><dd>@camilogomez8</dd></dl>
+      <details class="more"><summary>Un poco más de mí</summary><div class="bio"><p>Soy muy bueno jugando Overcooked en PlayStation. Una forma diferente de decir que me va bien trabajando en equipo bajo presión. Y aunque he creado videojuegos para explicar noticias, la verdad es que no juego nada por mi cuenta.</p><p>He dado clases de periodismo en la Universidad de Los Andes y he sido invitado a dictar sesiones sobre periodismo digital en la Universidad del Rosario y en mi alma mater, la Universidad Javeriana. Me falta plantar un árbol y tener una hija, en la guía de José Martí.</p><p>Voy al cine cada semana mínimo una vez. Me sirve de terapia y para alimentar mi creatividad. Es mi mayor pasión. Mi meta es convertirme en un crítico certificado algún día y tener un formato de video para hablar de cine. Me gusta cubrir los Oscars en Los Ángeles (ya toqué uno recién salido del horno).</p><p>Viví dos meses en Nueva York, mi ciudad favorita en el mundo, como fellow del ICFJ. Aprendí mucho de teatro gracias a una fellow peruana y de audio, podcast y música gracias a un fellow ecuatoriano. Que viva Latinoamérica unida. Me gusta mucho viajar y conocer otras culturas.</p><p>Tengo un perro que se llama Bruno. Come pan, pero solo en rollito. Es la imagen de una aplicación que estoy desarrollando para búsqueda de mascotas perdidas en Bogotá. También estoy desarrollando una aplicación estilo Letterboxd para gastronomía. Me interesa la programación y el desarrollo de herramientas de optimización con IA.</p><p>He creado automatizaciones con apps script de Google apoyadas en Google News para leer mejor los intereses de las audiencias y mejorar mis conocimientos de seo. Soy un poco ñoño.</p><p>No me he ganado premios, no me gusta presentarme. Pero si hubiera un premio al más chambeador, yo no iría a reclamarlo porque estaría en el trabajo.</p><p>Aprendí inglés gracias a Chandler de Friends. Hago chistes como él cuando me siento incómodo. También estudio portugués. Me gusta mucho el fútbol y soy hincha de Millonarios. Y eso es una buena garantía. Me pueden tratar mal y yo les voy a dar las gracias.</p><p>Soy fotógrafo aficionado en conciertos, mi helado favorito es el de pistacho y me gustan los juegos de mesa y los dinosaurios. Creo que es todo lo que tienen que saber sobre mí.</p></div></details>
       <div class="barcode" aria-hidden="true"></div></div>`;
   }
 };
